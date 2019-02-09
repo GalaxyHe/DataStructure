@@ -16,16 +16,6 @@ public class MyLinkedList<T> implements Iterable<T> {
     private int size = 0;//此链表中元素的个数
 
 
-
-
-    /*
-     *实现迭代器
-     */
-    @Override
-    public Iterator<T> iterator() {
-        return new MyLinkedListItr();
-    }
-
     //构建一个空链表
     public MyLinkedList() {
         clear();
@@ -222,6 +212,14 @@ public class MyLinkedList<T> implements Iterable<T> {
         T oldValue = p.data;
         p.data = newValue;
         return oldValue;
+    }
+
+    /*
+     *实现迭代器
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new MyLinkedListItr();
     }
 
     private class MyLinkedListItr implements Iterator<T> {

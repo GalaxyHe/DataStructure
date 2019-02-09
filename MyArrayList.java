@@ -34,15 +34,6 @@ public class MyArrayList<T> implements Iterable<T> {
         }
     }
 
-    /*
-     * 实现迭代器
-     */
-
-    //覆写Iterator的构造方法
-    @Override
-    public Iterator<T> iterator() {
-        return new ArrayListIterator();
-    }
 
     public static void main(String[] args) {
         MyArrayList<Integer> lst = new MyArrayList<>();
@@ -273,6 +264,15 @@ public class MyArrayList<T> implements Iterable<T> {
         size = newSize;
     }
 
+    /*
+     * 实现迭代器
+     */
+
+    //覆写Iterator的构造方法
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayListIterator();
+    }
     /*
      *覆写Iterator的next()、hasNext()以及remove方法
      */
