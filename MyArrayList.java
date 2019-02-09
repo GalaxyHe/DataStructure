@@ -11,10 +11,6 @@ public class MyArrayList<T> implements Iterable<T> {
     public int size;//记录元素的个数
 
 
-    /*
-     * 实现迭代器
-     */
-
     public MyArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
             this.elementData = (T[]) new Object[initialCapacity];
@@ -36,6 +32,16 @@ public class MyArrayList<T> implements Iterable<T> {
         if ((size = elementData.length) != 0) {    //此时数组元素个数等于数组容量
             elementData = (T[]) Arrays.copyOf(elementData, size, Object[].class);
         }
+    }
+
+    /*
+     * 实现迭代器
+     */
+
+    //覆写Iterator的构造方法
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayListIterator();
     }
 
     public static void main(String[] args) {
@@ -60,12 +66,6 @@ public class MyArrayList<T> implements Iterable<T> {
         /*lst.Remove(5);
         lst.removeRange(1,3);
         System.out.println(lst.size);*/
-    }
-
-    //覆写Iterator的构造方法
-    @Override
-    public Iterator<T> iterator() {
-        return new ArrayListIterator();
     }
 
     //调整底层数组容量以契合当前元素数量,避免空元素部分太多而浪费内存。size是数组中实际存在的元素个数

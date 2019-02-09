@@ -15,10 +15,22 @@ public class MyLinkedList<T> implements Iterable<T> {
     private int modCount = 0;//用来记录修改此链表的次数（增、删、查、改等）
     private int size = 0;//此链表中元素的个数
 
+
+
+
+    /*
+     *实现迭代器
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new MyLinkedListItr();
+    }
+
     //构建一个空链表
     public MyLinkedList() {
         clear();
     }
+    //-----------------------------------------------------------------------
 
     public static void main(String[] args) {
         MyLinkedList<Integer> lst = new MyLinkedList<>();
@@ -39,17 +51,24 @@ public class MyLinkedList<T> implements Iterable<T> {
         System.out.println(lst.isEmpty());
         System.out.println(lst.Contains(2));
     }
-    //---------------------------------------------------------------------------
+    //----------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
+    //----------------------------------------------------------------------
     /*
-     *实现迭代器
+     * 私有的内部类，用来构造节点
+     * 一个节点包含指向前一个节点的指针和到下一个节点的指针以及包含的数据
      */
-    @Override
-    public Iterator<T> iterator() {
-        return new MyLinkedListItr();
+    private static class Node<T> {
+        public Node<T> prev;
+        public Node<T> next;
+        public T data;
+
+        public Node(T data, Node<T> prev, Node<T> next) {
+            this.prev = prev;
+            this.next = next;
+            this.data = data;
+        }
     }
-    //-----------------------------------------------------------------------
 
     public void clear() {
         //连接头节点和尾节点，确保链表为空
@@ -205,23 +224,6 @@ public class MyLinkedList<T> implements Iterable<T> {
         return oldValue;
     }
 
-    //----------------------------------------------------------------------
-    /*
-     * 私有的内部类，用来构造节点
-     * 一个节点包含指向前一个节点的指针和到下一个节点的指针以及包含的数据
-     */
-    private static class Node<T> {
-        public Node<T> prev;
-        public Node<T> next;
-        public T data;
-
-        public Node(T data, Node<T> prev, Node<T> next) {
-            this.prev = prev;
-            this.next = next;
-            this.data = data;
-        }
-    }
-
     private class MyLinkedListItr implements Iterator<T> {
         private Node<T> cur = first.next;//记录当前位置的指针
         private int expectedModCount = modCount;//记录迭代器对集合进行修改的次数
@@ -262,4 +264,6 @@ public class MyLinkedList<T> implements Iterable<T> {
             Removeflag = false;//确保在next（)后能进行删除操作
         }
     }
+
+
 }
