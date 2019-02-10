@@ -11,6 +11,8 @@ public class MyArrayList<T> implements Iterable<T> {
     public int size;//记录元素的个数
 
 
+    //----------------------------------三个构造方法----------------------------------------------------
+    //构造具有指定初始容量的空列表
     public MyArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
             this.elementData = (T[]) new Object[initialCapacity];
@@ -23,41 +25,21 @@ public class MyArrayList<T> implements Iterable<T> {
         }
     }
 
+    //构造初始容量为10的空列表。
     public MyArrayList() {
         this.elementData = (T[]) new Object[10];
     }
 
+    //构造一个列表，该列表包含指定集合的元素，其顺序由集合的迭代器返回。
     public MyArrayList(Collection<Object> c) {
         elementData = (T[]) c.toArray();//将集合转换为数组，数组容量为集合元素个数
         if ((size = elementData.length) != 0) {    //此时数组元素个数等于数组容量
             elementData = (T[]) Arrays.copyOf(elementData, size, Object[].class);
         }
     }
+//---------------------------------------------------------------------------------------
 
 
-    public static void main(String[] args) {
-        MyArrayList<Integer> lst = new MyArrayList<>();
-
-        lst.add(1);
-        lst.add(3);
-        lst.add(5);
-        lst.add(7);
-        lst.add(9);
-        Iterator<Integer> iterator = lst.iterator();
-        /*while(iterator.hasNext()){
-            System.out.println(iterator.next());
-        }*/
-
-        lst.add(2, 8);
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
-        //System.out.println(lst.get(2));
-
-        /*lst.Remove(5);
-        lst.removeRange(1,3);
-        System.out.println(lst.size);*/
-    }
 
     //调整底层数组容量以契合当前元素数量,避免空元素部分太多而浪费内存。size是数组中实际存在的元素个数
     public void trimToSize() {
@@ -158,18 +140,6 @@ public class MyArrayList<T> implements Iterable<T> {
         //将插入位置的原数据以及其后的数据往右移动一位，腾出空间
         System.arraycopy(elementData, index, elementData, index + 1, size - index);
 
-        /*
-         public static native void arraycopy(Object src,  int  srcPos,
-                                        Object dest, int destPos,
-                                        int length);
-         方法解读：第一个参数指明数据的来源数组，第二个参数说明数据源的起始位置
-                   第三个参数说明数据去向的目标数组，第四个参数说明数据在目标数组中存放时的起始位置，
-                   最后一个参数说明移动的数据长度（个数）。
-         作用： 将数组从指定的源数组(从指定位置开始)复制到目标数组的指定位置
-         该方法调用了C语言的memmove()函数，比一般的复制方法的实现效率要高很多，也安全很多，很适合用来批量处理数组。
-        强烈推荐在复制大量数组元素时用该方法，以取得更高的效率。
-         */
-
         elementData[index] = element;
         size++;
     }
@@ -264,14 +234,28 @@ public class MyArrayList<T> implements Iterable<T> {
         size = newSize;
     }
 
-    /*
-     * 实现迭代器
-     */
+    public static void main(String[] args) {
+        MyArrayList<Integer> lst = new MyArrayList<>();
 
-    //覆写Iterator的构造方法
-    @Override
-    public Iterator<T> iterator() {
-        return new ArrayListIterator();
+        lst.add(1);
+        lst.add(3);
+        lst.add(5);
+        lst.add(7);
+        lst.add(9);
+        Iterator<Integer> iterator = lst.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        lst.add(2, 8);
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+        System.out.println(lst.get(2));
+
+        lst.Remove(5);
+        lst.removeRange(1, 3);
+        System.out.println(lst.size);
     }
     /*
      *覆写Iterator的next()、hasNext()以及remove方法
@@ -294,5 +278,16 @@ public class MyArrayList<T> implements Iterable<T> {
             MyArrayList.this.Remove(--cur);
 
         }
+    }
+//-----------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------
+    /*
+     * 实现迭代器
+     */
+    //覆写Iterator的构造方法
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayListIterator();
     }
 }

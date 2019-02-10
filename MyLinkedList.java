@@ -109,18 +109,13 @@ public class MyLinkedList<T> implements Iterable<T> {
         return indexof(obj) != -1;
     }
 
-    //在非空节点p之前插入元素x
+    //在p指向的非空节点前插入元素x
     private void addBefore(Node<T> p, T x) {
         assert (x != null);
 
-        Node<T> pred = p.prev;
-        Node<T> newNode = new Node<>(x, pred, p);
+        Node<T> newNode = new Node<>(x, p.prev, p);
+        newNode.prev.next = newNode;
         p.prev = newNode;
-        if (pred == null) {
-            first = newNode;
-        } else {
-            pred.next = newNode;
-        }
 
         size++;
         modCount++;
