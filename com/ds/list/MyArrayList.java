@@ -1,4 +1,4 @@
-package DataStructure;
+package DataStructureDemo;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -7,7 +7,7 @@ import java.util.Iterator;
 public class MyArrayList<T> implements Iterable<T> {
     private static final int DEFAULT_CAPACITY = 10;//指定默认大小为10
     private static final Object[] EMPTY_ELEMENTDATA = {};//用于空实例的共享空数组实例。
-    public transient T[] elementData;//底层的泛型数组用来保存元素
+    public T[] elementData;//底层的泛型数组用来保存元素
     public int size;//记录元素的个数
 
 
@@ -234,6 +234,7 @@ public class MyArrayList<T> implements Iterable<T> {
         size = newSize;
     }
 
+    //---------------------------------------------------------
     public static void main(String[] args) {
         MyArrayList<Integer> lst = new MyArrayList<>();
 
@@ -257,9 +258,22 @@ public class MyArrayList<T> implements Iterable<T> {
         lst.removeRange(1, 3);
         System.out.println(lst.size);
     }
+
+    //---------------------------------------------------------
+
+
+
+    //-----------------------------------------------------------
     /*
-     *覆写Iterator的next()、hasNext()以及remove方法
+     * 实现迭代器
      */
+
+    //覆写Iterator的构造方法
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayListIterator();
+    }
+
     private class ArrayListIterator implements Iterator<T> {
         private int cur = 0;
 
@@ -276,18 +290,8 @@ public class MyArrayList<T> implements Iterable<T> {
         @Override
         public void remove() {
             MyArrayList.this.Remove(--cur);
-
         }
     }
 //-----------------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------------
-    /*
-     * 实现迭代器
-     */
-    //覆写Iterator的构造方法
-    @Override
-    public Iterator<T> iterator() {
-        return new ArrayListIterator();
-    }
 }
